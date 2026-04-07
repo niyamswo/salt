@@ -39,7 +39,7 @@ jobs:
 
   prepare-workflow:
     name: Prepare Workflow Run
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     environment: ci
     outputs:
       changed-files: ${{ steps.process-changed-files.outputs.changed-files }}
@@ -408,7 +408,7 @@ jobs:
     needs:
       - prepare-workflow
       - prepare-release
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     steps:
       - uses: actions/checkout@v4
 
@@ -525,7 +525,7 @@ jobs:
   combine-all-code-coverage:
     name: Combine Code Coverage
     if: ${{ !cancelled() && fromJSON(needs.prepare-workflow.outputs.config)['skip_code_coverage'] == false }}
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     env:
       PIP_INDEX_URL: https://pypi.org/simple
     needs:
@@ -655,7 +655,7 @@ jobs:
     # on a pull request instead of requiring all
     name: Set the ${{ github.workflow }} Pipeline Exit Status
     if: ${{ !cancelled() && always() }}
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     needs:
       - prepare-workflow
       - pre-commit

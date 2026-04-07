@@ -30,7 +30,7 @@ jobs:
 
   workflow-requirements:
     name: Check Workflow Requirements
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     outputs:
       requirements-met: ${{ steps.check-requirements.outputs.requirements-met }}
     steps:
@@ -62,7 +62,7 @@ jobs:
   trigger-branch-scheduled-builds:
     name: Trigger Branch Workflows
     if: ${{ github.event_name == 'schedule' && fromJSON(needs.workflow-requirements.outputs.requirements-met) }}
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     needs:
       - workflow-requirements
 
@@ -82,7 +82,7 @@ jobs:
 
   prepare-workflow:
     name: Prepare Workflow Run
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     environment: ci
     if: ${{ fromJSON(needs.workflow-requirements.outputs.requirements-met) }}
     needs:
@@ -462,7 +462,7 @@ jobs:
       - prepare-workflow
       - prepare-release
       - build-docs
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     steps:
       - uses: actions/checkout@v4
 
@@ -611,7 +611,7 @@ jobs:
     # on a pull request instead of requiring all
     name: Set the ${{ github.workflow }} Pipeline Exit Status
     if: ${{ !cancelled() && always() }}
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     needs:
       - workflow-requirements
       - trigger-branch-scheduled-builds

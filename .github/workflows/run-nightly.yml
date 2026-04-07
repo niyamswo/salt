@@ -15,7 +15,7 @@ jobs:
 
   workflow-requirements:
     name: Check Workflow Requirements
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     outputs:
       requirements-met: ${{ steps.check-requirements.outputs.requirements-met }}
     steps:

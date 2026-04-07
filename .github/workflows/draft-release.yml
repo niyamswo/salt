@@ -28,7 +28,7 @@ jobs:
 
   #list-artifacts:
   #  name: List Artifacts
-  #  runs-on: ubuntu-22.04
+  #  runs-on: s390x
   #  steps:
   #    # Checkout here so we can easily use custom actions
   #    - uses: actions/download-artifact@v4
@@ -39,7 +39,7 @@ jobs:
 
   create-github-release:
     name: Draft Release v${{ inputs.salt-version }}
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:

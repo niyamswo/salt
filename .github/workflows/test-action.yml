@@ -1337,7 +1337,7 @@ jobs:
 
   report:
     name: Test Reports
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     if: ${{ false }}
     needs:
       - test-linux

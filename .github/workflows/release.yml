@@ -34,7 +34,7 @@ jobs:
 
   check-requirements:
     name: Check Requirements
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     environment: release-check
     steps:
       - name: Check For Admin Permission
@@ -239,7 +239,7 @@ jobs:
   publish-draft:
     name: Publish Relase v${{ needs.prepare-workflow.outputs.salt-version }}
     if: ${{ !cancelled() && always() }}
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     needs:
       - check-requirements
       - prepare-workflow
@@ -258,7 +258,7 @@ jobs:
     # on a pull request instead of requiring all
     name: Set the ${{ github.workflow }} Pipeline Exit Status
     if: ${{ !cancelled() && always() }}
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     needs:
       - check-requirements
       - prepare-workflow

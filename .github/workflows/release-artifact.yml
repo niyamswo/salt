@@ -22,7 +22,7 @@ jobs:
 
   list-files:
     name: List ${{ inputs.name }}
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     outputs:
       files: ${{ steps.list-files.outputs.files }}
     steps:
@@ -41,7 +41,7 @@ jobs:
 
   upload-files:
     name: Upload ${{ matrix.file }} from ${{ inputs.name }}
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     needs:
       - list-files
     strategy:

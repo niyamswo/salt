@@ -463,7 +463,7 @@ jobs:
 
   report:
     name: Report
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     if: ${{ false }}
     needs:
       - test-linux
