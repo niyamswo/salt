@@ -63,7 +63,7 @@ jobs:
 
   test-linux:
     name: ${{ matrix.display_name }} ${{ matrix.tests-chunk }} ${{ matrix.version }}
-    runs-on: ${{ matrix.arch == 'x86_64' && 'ubuntu-24.04' || inputs.linux_arm_runner }}
+    runs-on: ${{ matrix.arch == 'x86_64' && 'ubuntu-24.04' || (matrix.arch == 's390x' && fromJSON('["self-hosted", "test", "s390x"]') || inputs.linux_arm_runner) }}
     if: ${{ !cancelled() && toJSON(fromJSON(inputs.matrix)['linux']) != '[]' }}
     timeout-minutes: 120  # 2 Hours - More than this and something is wrong
     strategy:
@@ -87,9 +87,17 @@ jobs:
 
       - name: Set up Python ${{ inputs.ci-python-version }}
         uses: actions/setup-python@v5
+        if: matrix.arch != 's390x' && runner.arch != 's390x'
         with:
           python-version: "${{ inputs.ci-python-version }}"
 
+      - name: Install Python on s390x (APT)
+        if: matrix.arch == 's390x' || runner.arch == 's390x'
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3.11 python3.11-venv python3-pip
+          sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 || true
+          python3 --version
       - name: Setup Python Tools Scripts
         uses: ./.github/actions/setup-python-tools-scripts
         with:
@@ -247,9 +255,17 @@ jobs:
 
       - name: Set up Python ${{ inputs.ci-python-version }}
         uses: actions/setup-python@v5
+        if: matrix.arch != 's390x' && runner.arch != 's390x'
         with:
           python-version: "${{ inputs.ci-python-version }}"
 
+      - name: Install Python on s390x (APT)
+        if: matrix.arch == 's390x' || runner.arch == 's390x'
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3.11 python3.11-venv python3-pip
+          sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 || true
+          python3 --version
       - name: Install Nox
         run: |
           python3 -m pip install 'nox==${{ inputs.nox-version }}'
@@ -335,9 +351,17 @@ jobs:
 
       - name: Set up Python ${{ inputs.ci-python-version }}
         uses: actions/setup-python@v5
+        if: matrix.arch != 's390x' && runner.arch != 's390x'
         with:
           python-version: "${{ inputs.ci-python-version }}"
 
+      - name: Install Python on s390x (APT)
+        if: matrix.arch == 's390x' || runner.arch == 's390x'
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3.11 python3.11-venv python3-pip
+          sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 || true
+          python3 --version
       - name: "Throttle Builds"
         shell: bash
         run: |

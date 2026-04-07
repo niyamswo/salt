@@ -71,10 +71,18 @@
 
       - name: Set up Python <{ gh_actions_workflows_python_version }>
         uses: actions/setup-python@v5
+        if: matrix.arch != 's390x' && runner.arch != 's390x'
         with:
           python-version: "<{ gh_actions_workflows_python_version }>"
 
 
+      - name: Install Python on s390x (APT)
+        if: matrix.arch == 's390x' || runner.arch == 's390x'
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3.11 python3.11-venv python3-pip
+          sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 || true
+          python3 --version
       - name: Setup Python Tools Scripts
         uses: ./.github/actions/setup-python-tools-scripts
         with:
@@ -231,9 +239,17 @@
 
       - name: Set up Python <{ gh_actions_workflows_python_version }>
         uses: actions/setup-python@v5
+        if: matrix.arch != 's390x' && runner.arch != 's390x'
         with:
           python-version: "<{ gh_actions_workflows_python_version }>"
 
+      - name: Install Python on s390x (APT)
+        if: matrix.arch == 's390x' || runner.arch == 's390x'
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3.11 python3.11-venv python3-pip
+          sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 || true
+          python3 --version
       - name: Setup Python Tools Scripts
         uses: ./.github/actions/setup-python-tools-scripts
         with:
@@ -329,10 +345,18 @@
 
       - name: Set up Python <{ gh_actions_workflows_python_version }>
         uses: actions/setup-python@v5
+        if: matrix.arch != 's390x' && runner.arch != 's390x'
         with:
           python-version: "<{ gh_actions_workflows_python_version }>"
 
 
+      - name: Install Python on s390x (APT)
+        if: matrix.arch == 's390x' || runner.arch == 's390x'
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3.11 python3.11-venv python3-pip
+          sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 || true
+          python3 --version
       - name: Setup Python Tools Scripts
         id: python-tools-scripts
         uses: ./.github/actions/setup-python-tools-scripts
