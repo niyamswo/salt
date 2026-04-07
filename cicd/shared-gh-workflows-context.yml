@@ -147,6 +147,11 @@ test-salt-listing:
       arch: arm64
       container: "ghcr.io/saltstack/salt-ci-containers/testing:ubuntu-24.04"
       enabled: false
+    - slug: ubuntu-24.04-s390x
+      display_name: "Ubuntu 24.04 s390x"
+      arch: s390x
+      container: "ghcr.io/saltstack/salt-ci-containers/testing:ubuntu-24.04"
+      enabled: true
   macos:
     - slug: macos-15-intel
       display_name: "macOS 15 (Intel)"
@@ -291,6 +296,12 @@ test-salt-pkg-listing:
       pkg_type: deb
       container: "ghcr.io/saltstack/salt-ci-containers/testing:ubuntu-24.04"
       enabled: false
+    - slug: ubuntu-24.04-s390x-pkg
+      display_name: "Ubuntu 24.04 s390x"
+      arch: s390x
+      pkg_type: deb
+      container: "ghcr.io/saltstack/salt-ci-containers/testing:ubuntu-24.04"
+      enabled: true
   macos:
     - slug: macos-15-intel-pkg
       display_name: "macOS 15 (Intel)"

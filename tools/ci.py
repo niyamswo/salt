@@ -162,8 +162,10 @@ def _build_matrix(os_kind, linux_arm_runner):
         ]
     elif os_kind == "macos":
         _matrix.append({"arch": "arm64"})
-    elif os_kind == "linux" and linux_arm_runner:
-        _matrix.append({"arch": "arm64"})
+    elif os_kind == "linux":
+        if linux_arm_runner:
+            _matrix.append({"arch": "arm64"})
+        _matrix.append({"arch": "s390x"})
     return _matrix
 
 
@@ -1003,6 +1005,7 @@ def workflow_config(
     test_matrix: dict[str, list] = {
         "linux-x86_64": [],
         "linux-arm64": [],
+        "linux-s390x": [],
         "macos": [],
         "windows": [],
     }
@@ -1036,7 +1039,7 @@ def workflow_config(
                                     )
                                 ]
                             else:
-                                for arch in ["x86_64", "arm64"]:
+                                for arch in ["x86_64", "arm64", "s390x"]:
                                     if f"{platform}-{arch}" not in test_matrix:
                                         test_matrix[f"{platform}-{arch}"] = []
                                     test_matrix[f"{platform}-{arch}"] += [
@@ -1078,7 +1081,7 @@ def workflow_config(
                                 )
                             ]
                         else:
-                            for arch in ["x86_64", "arm64"]:
+                            for arch in ["x86_64", "arm64", "s390x"]:
                                 if f"{platform}-{arch}" not in test_matrix:
                                     test_matrix[f"{platform}-{arch}"] = []
                                 test_matrix[f"{platform}-{arch}"] += [
