@@ -64,7 +64,7 @@ on:
   <{ job_name }>:
   <%- do prepare_workflow_needs.append(job_name) %>
     name: Check Requirements
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     environment: <{ gh_environment }>-check
     steps:
       - name: Check For Admin Permission
@@ -86,8 +86,8 @@ on:
       - prepare-workflow
       - build-docs
     environment: <{ gh_environment }>
-    runs-on:
-      - ubuntu-22.04
+    runs-on: 
+     - s390x
     steps:
       - uses: actions/checkout@v4
 
@@ -130,7 +130,7 @@ on:
       <%- endfor %>
     environment: <{ gh_environment }>
     runs-on:
-      - ubuntu-22.04
+      - s390x
     steps:
       - uses: actions/checkout@v4
 

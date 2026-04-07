@@ -62,7 +62,7 @@
   <{ job_name }>:
     name: "Prepare Release: ${{ needs.prepare-workflow.outputs.salt-version }}"
     runs-on:
-      - ubuntu-22.04
+      - s390x
     if: ${{ !cancelled() && fromJSON(needs.prepare-workflow.outputs.config)['jobs']['<{ job_name }>'] }}
     needs:
       - prepare-workflow
@@ -225,7 +225,7 @@
       - prepare-workflow
       - prepare-release
       - build-docs
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     steps:
       - uses: actions/checkout@v4
 
@@ -315,7 +315,7 @@
     <%- do conclusion_needs.append("combine-all-code-coverage") %>
     name: Combine Code Coverage
     if: ${{ !cancelled() && fromJSON(needs.prepare-workflow.outputs.config)['skip_code_coverage'] == false }}
-    runs-on: ubuntu-22.04
+    runs-on: s390x
     env:
       PIP_INDEX_URL: https://pypi.org/simple
     needs:
