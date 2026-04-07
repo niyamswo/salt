@@ -39,6 +39,7 @@ jobs:
     - name: Install Python on s390x (APT)
       if: matrix.arch == 's390x' || runner.arch == 's390x'
       run: |
+        sudo ln -sf /usr/bin/python3.10 /usr/bin/python3
         sudo apt-get update
         sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3.11 python3.11-venv python3-pip
         sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 || true
@@ -75,9 +76,15 @@ jobs:
       - name: Install Python on s390x (APT)
         if: matrix.arch == 's390x' || runner.arch == 's390x'
         run: |
+          # Fix apt_pkg before running apt-get (restores python3.10 if broken)
+          sudo ln -sf /usr/bin/python3.10 /usr/bin/python3 || true
           sudo apt-get update
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3.11 python3.11-venv python3-pip
-          sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 || true
+          sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2 || true
+          sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1 || true
+          sudo update-alternatives --set python3 /usr/bin/python3.10 || true
+          # python3.11 is available explicitly; keep system python3 -> 3.10 so apt_pkg keeps working
+          python3.11 --version
           python3 --version
       - name: Install NSIS
         run: .\pkg\windows\install_nsis.cmd -CICD
