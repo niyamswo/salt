@@ -70,7 +70,7 @@ jobs:
 
   test-linux:
     name: ${{ matrix.display_name }} ${{ matrix.tests-chunk }} ${{ matrix.transport }}${{ matrix.fips && '(fips)' || '' }}${{ matrix.test-group && ' ' || '' }}${{ matrix.test-group && matrix.test-group || '' }}
-    runs-on: ${{ matrix.arch == 'x86_64' && 'ubuntu-24.04' || (matrix.arch == 's390x' && fromJSON('["self-hosted", "test", "s390x"]') || inputs.linux_arm_runner) }}
+    runs-on: ${{ matrix.arch == 'x86_64' && 'ubuntu-24.04' || (matrix.arch == 's390x' && fromJSON('["s390x"]') || inputs.linux_arm_runner) }}
     if: ${{ !cancelled() && toJSON(fromJSON(inputs.matrix)['linux-x86_64']) != '[]' }}
     # Full test runs. Each chunk should never take more than 2 hours.
     # Partial test runs(no chunk parallelization), 6 Hours
@@ -424,7 +424,7 @@ jobs:
 
   test-linux-arm64:
     name: ${{ matrix.display_name }} ${{ matrix.tests-chunk }} ${{ matrix.transport }}${{ matrix.fips && '(fips)' || '' }}${{ matrix.test-group && ' ' || '' }}${{ matrix.test-group && matrix.test-group || '' }}
-    runs-on: ${{ matrix.arch == 'x86_64' && 'ubuntu-22.04' || (matrix.arch == 's390x' && fromJSON('["self-hosted", "test", "s390x"]') || inputs.linux_arm_runner) }}
+    runs-on: ${{ matrix.arch == 'x86_64' && 'ubuntu-22.04' || (matrix.arch == 's390x' && fromJSON('["s390x"]') || inputs.linux_arm_runner) }}
     if: ${{ !cancelled() && toJSON(fromJSON(inputs.matrix)['linux-arm64']) != '[]' }}
     # Full test runs. Each chunk should never take more than 2 hours.
     # Partial test runs(no chunk parallelization), 6 Hours
@@ -785,7 +785,7 @@ jobs:
 
   test-linux-s390x:
     name: ${{ matrix.display_name }} ${{ matrix.tests-chunk }} ${{ matrix.transport }}${{ matrix.fips && '(fips)' || '' }}${{ matrix.test-group && ' ' || '' }}${{ matrix.test-group && matrix.test-group || '' }}
-    runs-on: ${{ matrix.arch == 'x86_64' && 'ubuntu-22.04' || fromJSON('["self-hosted", "test", "s390x"]') }}
+    runs-on: ${{ matrix.arch == 'x86_64' && 'ubuntu-22.04' || fromJSON('["s390x"]') }}
     if: ${{ !cancelled() && toJSON(fromJSON(inputs.matrix)['linux-s390x']) != '[]' }}
     # Full test runs. Each chunk should never take more than 2 hours.
     # Partial test runs(no chunk parallelization), 6 Hours

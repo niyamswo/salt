@@ -68,7 +68,7 @@ jobs:
     name: DEB
     if: ${{ toJSON(fromJSON(inputs.matrix)['linux']) != '[]' }}
     runs-on:
-      - ${{ matrix.arch == 'x86_64' && 'ubuntu-24.04' || (matrix.arch == 's390x' && fromJSON('["self-hosted", "test", "s390x"]') || inputs.linux_arm_runner) }}
+      - ${{ matrix.arch == 'x86_64' && 'ubuntu-24.04' || (matrix.arch == 's390x' && fromJSON('["s390x"]') || inputs.linux_arm_runner) }}
     strategy:
       fail-fast: false
       matrix:
@@ -203,7 +203,7 @@ jobs:
     environment: ${{ inputs.environment }}
     if: ${{ toJSON(fromJSON(inputs.matrix)['linux']) != '[]' }}
     runs-on:
-      - ${{ matrix.arch == 'x86_64' && 'ubuntu-24.04' || (matrix.arch == 's390x' && fromJSON('["self-hosted", "test", "s390x"]') || inputs.linux_arm_runner) }}
+      - ${{ matrix.arch == 'x86_64' && 'ubuntu-24.04' || (matrix.arch == 's390x' && fromJSON('["s390x"]') || inputs.linux_arm_runner) }}
     strategy:
       fail-fast: false
       matrix:
