@@ -74,8 +74,7 @@ jobs:
       matrix:
         include: ${{ fromJSON(inputs.matrix)['linux'] }}
 
-    container:
-      image: ghcr.io/saltstack/salt-ci-containers/testing:debian-13
+    container: ${{ matrix.arch != 's390x' && fromJSON('{"image":"ghcr.io/saltstack/salt-ci-containers/testing:debian-13"}') || null }}
 
     env:
       RELENV_DATA: "${{ github.workspace }}/.relenv"
@@ -126,6 +125,10 @@ jobs:
         run: |
           mkdir -p ~/.local/relenv
           python3 -m venv venv
+          # Set PIP_FIND_LINKS for s390x to find ppbt wheel
+          if [ "${{ matrix.arch }}" = "s390x" ]; then
+            export PIP_FIND_LINKS=/home/runner
+          fi
           venv/bin/python3 -m pip install ppbt relenv==${{ inputs.relenv-version }}
           venv/bin/python3 -c 'from relenv import common; common.get_toolchain()'
 
@@ -209,8 +212,7 @@ jobs:
       matrix:
         include: ${{ fromJSON(inputs.matrix)['linux'] }}
 
-    container:
-      image: ghcr.io/saltstack/salt-ci-containers/testing:fedora-42
+    container: ${{ matrix.arch != 's390x' && fromJSON('{"image":"ghcr.io/saltstack/salt-ci-containers/testing:fedora-42"}') || null }}
 
     env:
       RELENV_DATA: "${{ github.workspace }}/.relenv"
@@ -234,6 +236,10 @@ jobs:
         run: |
           mkdir -p ~/.local/relenv
           python3 -m venv venv
+          # Set PIP_FIND_LINKS for s390x to find ppbt wheel
+          if [ "${{ matrix.arch }}" = "s390x" ]; then
+            export PIP_FIND_LINKS=/home/runner
+          fi
           venv/bin/python3 -m pip install ppbt relenv==${{ inputs.relenv-version }}
           venv/bin/python3 -c 'from relenv import common; common.get_toolchain()'
 
