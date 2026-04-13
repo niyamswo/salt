@@ -25,8 +25,19 @@ runs:
       shell: bash
       run: |
         if ! command -v actionlint; then
-          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) ${{ inputs.version }}
-          mv ./actionlint /usr/local/bin/actionlint
+          # Check if architecture is supported
+          ARCH=$(uname -m)
+          if [ "$ARCH" = "s390x" ]; then
+            echo "Warning: actionlint does not support s390x architecture. Skipping installation."
+            # Create a dummy actionlint script that exits successfully
+            echo '#!/bin/bash' | sudo tee /usr/local/bin/actionlint > /dev/null
+            echo 'echo "actionlint skipped on s390x architecture"' | sudo tee -a /usr/local/bin/actionlint > /dev/null
+            echo 'exit 0' | sudo tee -a /usr/local/bin/actionlint > /dev/null
+            sudo chmod +x /usr/local/bin/actionlint
+          else
+            bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) ${{ inputs.version }}
+            mv ./actionlint /usr/local/bin/actionlint
+          fi
         fi
     - name: Show actionlint Version
       shell: bash

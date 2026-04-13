@@ -36,14 +36,16 @@ jobs:
 
     steps:
 
+      - uses: actions/checkout@v4
+
       - name: Setup Python ${{ inputs.ci-python-version }}
         uses: actions/setup-python@v5
-        if: matrix.arch != 's390x' && runner.arch != 's390x'
+        if: runner.arch != 'S390X'
         with:
           python-version: "${{ inputs.ci-python-version }}"
 
       - name: Install Python on s390x (APT)
-        if: matrix.arch == 's390x' || runner.arch == 's390x'
+        if: runner.arch == 'S390X'
         run: |
           # Fix apt_pkg before running apt-get (restores python3.10 if broken)
           sudo ln -sf /usr/bin/python3.10 /usr/bin/python3 || true
@@ -55,6 +57,7 @@ jobs:
           # python3.11 is available explicitly; keep system python3 -> 3.10 so apt_pkg keeps working
           python3.11 --version
           python3 --version
+
       - name: Install dependency packages
         run: |
           sudo apt-get update -y && sudo apt-get install -y libxml2-dev libxslt1-dev
@@ -62,8 +65,6 @@ jobs:
       - name: Add Git Safe Directory
         run: |
           git config --global --add safe.directory "$(pwd)"
-
-      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-actionlint
         with:
           cache-seed: ${{ inputs.cache-seed }}
